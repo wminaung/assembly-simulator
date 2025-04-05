@@ -1,0 +1,12 @@
+{
+  "name": "assembly-simulator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "bash build-dev.sh",
+      "debug": "bash debug.sh"
+  },
+  "author": "Win Min Aung",
+  "license": "ISC",
+  "description": ""
+}
