@@ -9,6 +9,48 @@
 #define COMBINE(op, addr) ((op)*100 + (addr))
 using namespace std;
 
+string getSpace(int const &stri_len) {
+  std::string space;
+  if (stri_len == 2) {
+    space = "  |  ";
+  } else if (stri_len == 1) {
+    space = "  |   ";
+  }
+  return space;
+}
+
+void printMemory(int const (&memory)[100], int program_counter = 0,
+                 int accumulator = 0) {
+  // Print header
+  cout << "Memory Program Counter " << program_counter << endl;
+  cout << "---------------" << endl;
+
+  // Loop to print memory from 0 to 8 and 50 to 58 side by side
+  for (size_t i = 0; i < 9; i++) { // From index 0 to 8
+    std::ostringstream oss;
+    oss << i;
+    string stri = oss.str();
+    string space = getSpace(stri.length());
+
+    // Prepare the first column for indices 0 to 8
+    cout << "| " << stri << space << memory[i] << "    |";
+
+    // Prepare the second column for indices 50 to 58
+    if (i + 50 < 100) { // Ensure we don't access out-of-bounds memory
+      std::ostringstream oss2;
+      oss2 << (i + 50);
+      string stri2 = oss2.str();
+      string space2 = getSpace(stri2.length());
+      cout << "| " << stri2 << space2 << memory[i + 50] << "    |" << endl;
+    } else {
+      cout << "|        |" << endl; // To keep the format aligned if there are
+                                    // less than 9 items in the second range
+    }
+    cout << "---------------" << endl;
+  }
+  cout << "Accumulator: " << accumulator << endl;
+}
+
 int main() {
   ifstream MyReadFile("myasm.asm");
   string myText = "";
@@ -27,6 +69,7 @@ int main() {
   int operation_code = 0;
   int operand = 0;
   //
+
   int i = 0;
   while (getline(MyReadFile, myText)) {
     string command;
@@ -34,9 +77,9 @@ int main() {
     stringstream ss(myText);
     ss >> command >> value;
 
-    cout << command << " " << value << endl;
+    // cout << command << " " << value << endl;
     transform(command.begin(), command.end(), command.begin(), ::toupper);
-    cout << command << " " << value << endl;
+    // cout << command << " " << value << endl;
     memory[i] = COMBINE(opcodes[command], value);
     i++;
     // command
@@ -44,9 +87,11 @@ int main() {
   // Close the file
   MyReadFile.close();
 
+  printMemory(memory);
   bool executing = true;
   while (executing) {
-    instruction_register = memory[instruction_counter++];
+
+    instruction_register = memory[instruction_counter];
     operation_code = instruction_register / 100;
     operand = instruction_register % 100;
     switch (operation_code) {
@@ -108,6 +153,8 @@ int main() {
       // Unknown operation
       break;
     }
+    instruction_counter++;
+    printMemory(memory, instruction_counter, accumulator);
   }
 
   return 0;
