@@ -8,5 +8,6 @@
   },
   "author": "Win Min Aung",
   "license": "ISC",
+  "keywords": ["simpletron", "assembly", "simulator"],
   "description": ""
 }

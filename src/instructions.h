@@ -9,4 +9,4 @@
 #define JUMP 40
 #define JUMPNEG 41
 #define JUPZERO 42
-#define HALT 43 // EXIT
+#define HALT 43

@@ -1,48 +1,35 @@
 #include "instructions.h"
-#include <algorithm>
-#include <fstream>
 #include <iostream>
-#include <map>
-#include <sstream>
-#include <string>
 
 #define COMBINE(op, addr) ((op)*100 + (addr))
 using namespace std;
-
 int main() {
-  ifstream MyReadFile("myasm.asm");
-  string myText = "";
-  //
-  map<string, int> opcodes = {{"READ", 10},    {"WRITE", 11},   {"LOAD", 20},
-                              {"STORE", 21},   {"ADD", 30},     {"SUB", 31},
-                              {"DIV", 32},     {"MUL", 33},     {"JUMP", 40},
-                              {"JUMPNEG", 41}, {"JUPZERO", 42}, {"HALT", 43}};
-
-  //
   int memory[100] = {0};
   int accumulator = 0;
   int instruction_counter = 0;
   int instruction_register = 0;
   int operation_code = 0;
   int operand = 0;
-  //
-  int i = 0;
-  while (getline(MyReadFile, myText)) {
-    string command;
-    int value;
-    stringstream ss(myText);
-    ss >> command >> value;
 
-    cout << command << " " << value << endl;
-    transform(command.begin(), command.end(), command.begin(), ::toupper);
-    cout << command << " " << value << endl;
-    memory[i] = COMBINE(opcodes[command], value);
-    i++;
-    // command
-  }
-  // Close the file
-  MyReadFile.close();
+  // LOAD PROGRAM INTO MEMORY
+  /*
+    memory[0] = 1050; // read input from memory 50
+    memory[1] = 2050; // load to accumulator
+    memory[2] = 1051; // read input from memory 51
+    memory[3] = 3051; // add value from m 51 to accumulator
+    memory[4] = 2152; // store accumulator value in memory
+    memory[5] = 1152; // write accumulator value to memory
+    memory[6] = 4300; // halt
+  */
+  memory[0] = COMBINE(READ, 50);  // read input from memory 50
+  memory[1] = COMBINE(LOAD, 50);  // load to accumulator
+  memory[2] = COMBINE(READ, 51);  // read input from memory 51
+  memory[3] = COMBINE(SUB, 51);   // add value from m 51 to accumulator
+  memory[4] = COMBINE(STORE, 52); // store accumulator value in memory
+  memory[5] = COMBINE(WRITE, 52); // write accumulator value to memory
+  memory[6] = COMBINE(HALT, 00);  // halt
 
+  // EXECUTE PROGRAM
   bool executing = true;
   while (executing) {
     instruction_register = memory[instruction_counter++];
@@ -109,5 +96,7 @@ int main() {
     }
   }
 
+  ////////////////////////
   return 0;
+  //
 }
