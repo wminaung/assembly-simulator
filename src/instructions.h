@@ -8,5 +8,5 @@
 #define MUL 33
 #define JUMP 40
 #define JUMPNEG 41
-#define JUPZERO 42
+#define JUMPZERO 42
 #define HALT 43

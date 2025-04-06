@@ -13,10 +13,11 @@ int main() {
   ifstream MyReadFile("myasm.asm");
   string myText = "";
   //
-  map<string, int> opcodes = {{"READ", 10},    {"WRITE", 11},   {"LOAD", 20},
-                              {"STORE", 21},   {"ADD", 30},     {"SUB", 31},
-                              {"DIV", 32},     {"MUL", 33},     {"JUMP", 40},
-                              {"JUMPNEG", 41}, {"JUPZERO", 42}, {"HALT", 43}};
+  map<string, int> opcodes = {
+      {"READ", READ},       {"WRITE", WRITE},       {"LOAD", LOAD},
+      {"STORE", STORE},     {"ADD", ADD},           {"SUB", SUB},
+      {"DIV", DIV},         {"MUL", MUL},           {"JUMP", JUMP},
+      {"JUMPNEG", JUMPNEG}, {"JUMPZERO", JUMPZERO}, {"HALT", HALT}};
 
   //
   int memory[100] = {0};
@@ -91,7 +92,7 @@ int main() {
       }
       // Jump if accumulator is negative
       break;
-    case JUPZERO:
+    case JUMPZERO:
       if (accumulator == 0) {
         instruction_counter = operand;
       }
