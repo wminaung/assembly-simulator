@@ -4,7 +4,7 @@
 mkdir -p build
 
 # Compile
-g++ -g src/*.cpp -o build/main.exe
+g++ -std=c++17 -g src/*.cpp -o build/main.exe
 
 # Check if compilation was successful
 if [ $? -eq 0 ]; then
