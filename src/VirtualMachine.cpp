@@ -26,10 +26,10 @@ VirtualMachine::~VirtualMachine() {}
 
 void VirtualMachine::run() {
   //
-  for (i16 i = 0; i < 17; ++i) {
+  for (i16 i = 0; i < lines.size(); ++i) {
     std::cout << "Memory[" << i << "]: " << memory[i] << std::endl;
   }
-
+  std::cout << "_____________________________" << std::endl;
   bool executing = true;
   while (executing) {
     this->instruction_register = this->memory[this->instruction_counter];
@@ -128,11 +128,11 @@ void VirtualMachine::loadProgram() {
     }
 
     if (i == lines.size() - 1) {
-      for (size_t i = 0; i < 17; i++) {
+      for (size_t i = 0; i < lines.size(); i++) {
         std::cout << "Memory[" << i << "]: " << memory[i] << std::endl;
       }
-
       std::cout << "Program loaded successfully" << std::endl;
+      std::cout << "_____________________________" << std::endl;
     }
   }
 }
