@@ -1,11 +1,7 @@
-
 READ  50
 LOAD  50
-
 READ  51 
-MUL   51 
-
+ADD   51 
 STORE 52
 WRITE 52
-
 HALT  00

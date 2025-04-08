@@ -32,18 +32,23 @@ void VirtualMachine::run() {
   std::cout << "_____________________________" << std::endl;
   bool executing = true;
   while (executing) {
+    // fetch
     this->instruction_register = this->memory[this->instruction_counter];
     //
+    // decode
     this->operation_code = instruction_register / 100;
     this->operand = instruction_register % 100;
-    instruction_counter++;
+    std::string inputString = "";
+    // execute
     switch (operation_code) {
     case READ:
-      std::cin >> memory[operand];
-      // Read input and store it in memory
+
+      std::cout << "Enter a number: "
+                << "accv " << accumulator << " :";
+      scanf_s("%d", &memory[operand]);
       break;
     case WRITE:
-      std::cout << std::endl << "The result : " << memory[operand];
+      std::cout << std::endl << "The result : " << memory[operand] << "\n";
       // Output the value from memory
       break;
     case LOAD:
@@ -92,12 +97,16 @@ void VirtualMachine::run() {
       // Stop program
       break;
     default:
-      std::cout << "\nUnknown operation " << instruction_register << " code "
-                << operation_code << " operand " << operand << std::endl;
+      std::cout << "\nSyntax Error Mother Fucker" << std::endl;
+      executing = false;
       // Unknown operation
       break;
     }
-
+    // Increment the instruction counter only if not a jump
+    if (operation_code != JUMP && operation_code != JUMPNEG &&
+        operation_code != JUMPZERO) {
+      instruction_counter++;
+    }
     // printMemory(memory, instruction_counter, accumulator);
   }
 }
@@ -137,27 +146,4 @@ void VirtualMachine::loadProgram() {
   }
 }
 
-/*
-void VirtualMachine::loadProgram(std::ifstream &MyReadFile, std::string myText)
-{ int i = 0;
-
-  while (getline(MyReadFile, myText)) {
-    std::string command;
-    int value;
-    std::stringstream ss(myText);
-    ss >> command >> value; // eg: "LOAD" 01
-    transform(command.begin(), command.end(), command.begin(),
-              ::toupper); // do uppercase
-    std::cout << command << " " << value << std::endl;
-    int op_c = opcodes[command];
-    if (op_c) {
-      memory[i] = COMBINE(op_c, value);
-      i++;
-    }
-
-    // command
-  }
-  MyReadFile.close();
-}
-
-*/
+void VirtualMachine::fetch() {}

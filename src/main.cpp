@@ -24,7 +24,6 @@ int main(int argc, char *argv[]) {
 
   VirtualMachine vm;
   vm.readFile(MyReadFile).loadProgram();
-
   vm.run();
   return 0;
 }
